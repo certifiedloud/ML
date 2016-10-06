@@ -64,7 +64,7 @@ Theta2_grad = zeros(size(Theta2));
 
 X = [ones(size(X,1),1), X];
 
-% Cost function
+% PART 1: COST FUNCTION
 a1 = X;
 z2 = a1 * Theta1';
 a2 = sigmoid(z2);
@@ -81,21 +81,23 @@ end
 
 J = (1/m) * sum(sum(-yVec .* log(a3) - (1 - yVec) .* log(1 - a3 )));
 
+reg = (lambda / (2*m)) * (sum(sum(Theta1(:,2:end) .^ 2)) + sum(sum(Theta2(:,2:end) .^ 2)));
 
+J = J + reg;
 
+% PART 2: BACK PROPAGATION
 
+for t = 1:m
+  a1 = [1; X(t,:)'];  
+  z2 = Theta1 * a1;
+  a2 = [1; sigmoid(z2)];
 
+  z3 = Theta2 * a2;
+  a3 = sigmoid(z3);
+endfor
 
-
-
-
-
-
-
-
-
-
-
+%Theta1_grad = 
+%Theta2_grad = 
 
 % -------------------------------------------------------------
 

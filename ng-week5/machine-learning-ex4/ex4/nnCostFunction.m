@@ -73,7 +73,13 @@ a2 = [ones(size(a2,1),1), a2];
 z3 = a2 * Theta2';
 a3 = sigmoid(z3);
 
-J = (1/m) * sum(sum(-y .* log(a3 - (1 - y) .* log(1 - a3 ))));
+yVec = zeros(m,num_labels);
+
+for i = 1:m
+    yVec(i,y(i)) = 1;
+end
+
+J = (1/m) * sum(sum(-yVec .* log(a3) - (1 - yVec) .* log(1 - a3 )));
 
 
 

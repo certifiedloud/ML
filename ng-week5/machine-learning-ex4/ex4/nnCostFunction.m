@@ -85,19 +85,30 @@ reg = (lambda / (2*m)) * (sum(sum(Theta1(:,2:end) .^ 2)) + sum(sum(Theta2(:,2:en
 
 J = J + reg;
 
-% PART 2: BACK PROPAGATION
+% PART 2: BACK' PROPAGATION
 
-for t = 1:m
-  a1 = [1; X(t,:)'];  
-  z2 = Theta1 * a1;
-  a2 = [1; sigmoid(z2)];
+D1 = zeros(size(Theta1));
+D2 = zeros(size(Theta2));
 
-  z3 = Theta2 * a2;
-  a3 = sigmoid(z3);
-endfor
+for t = 1:m,
+	a1t = a1(t,:)';
+	a2t = a2(t,:)';
+	sigt = a3(t,:)';
+	yVectorT = yVec(t,:)';
 
-%Theta1_grad = 
-%Theta2_grad = 
+	d3t = sigt - yVectorT;
+
+	z2t = [1; Theta1 * a1t];
+	d2t = Theta2' * d3t .* sigmoidGradient(z2t);
+
+	D1 = D1 + d2t(2:end) * a1t';
+	D2 = D2 + d3t * a2t';
+endfor;
+
+Theta1ZeroBias = [ zeros(size(Theta1, 1), 1) Theta1(:,2:end) ];
+Theta2ZeroBias = [ zeros(size(Theta2, 1), 1) Theta2(:,2:end) ];
+Theta1_grad = (1 / m) * D1 + (lambda / m) * Theta1ZeroBias;
+Theta2_grad = (1 / m) * D2 + (lambda / m) * Theta2ZeroBias;
 
 % -------------------------------------------------------------
 

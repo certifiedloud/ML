@@ -21,9 +21,15 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+% ||(1,2,3)|| = sqrt(1^2 + 2^2 + 3^2))
 
-
-
+for i=1:size(X,1)
+  dis = zeros(1,K);
+  for j=1:K
+    dis = sqrt(sum((X(i,:) .^ 2) - (centroids(j,:) .^ 2)));
+  end
+  idx(i,1) = min(dis);
+end
 
 
 
